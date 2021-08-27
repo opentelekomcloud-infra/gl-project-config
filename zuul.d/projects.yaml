@@ -5,8 +5,8 @@
     check:
       queue: project-config
       jobs:
-        - otc-zuul-jobs-linters
+        - gl-zuul-jobs-linters
     gate:
       queue: project-config
       jobs:
-        - otc-zuul-jobs-linters
+        - gl-zuul-jobs-linters
