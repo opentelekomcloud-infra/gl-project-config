@@ -1,0 +1,12 @@
+- project:
+    name: opentelekomcloud-infra/gl-project-config
+    merge-mode: squash-merge
+    default-branch: master
+    check:
+      queue: project-config
+      jobs:
+        - otc-zuul-jobs-linters
+    gate:
+      queue: project-config
+      jobs:
+        - otc-zuul-jobs-linters
