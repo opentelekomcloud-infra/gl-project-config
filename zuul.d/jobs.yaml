@@ -1,4 +1,5 @@
----
+# Zuul tenant configuration for the gl tenant
+#
 - job:
     name: base
     parent: null
@@ -12,38 +13,47 @@
       work directory to the logserver.
       It also sets default timeout and nodeset values (which may be
       overidden).
+
       Responds to these variables:
+
       .. zuul:jobvar:: base_serial
          :default: Omitted
+
          This sets the serial keyword in the pre and post playbooks
          which can be an integer or percentage.
+
          See ansible documentation for more information:
          http://docs.ansible.com/ansible/latest/playbooks_delegation.html
     pre-run: playbooks/base/pre.yaml
     post-run:
       - playbooks/base/post.yaml
+      - playbooks/base/post-logs.yaml
     roles:
       - zuul: zuul/zuul-jobs
       - zuul: opentelekomcloud-infra/otc-zuul-jobs
     timeout: 1800
     post-timeout: 1800
     nodeset: centos-8
+    vars:
+      job_logs_container_name: zuul_gl_logs
     extra-vars:
       zuul_use_fetch_output: true
+    secrets:
+      - otc_gl_cloud_logs
 
-- job:
-    name: gl-zuul-jobs-linters
-    parent: tox
-    description: |
-      This job runs against project-config,
-      and zuul-jobs so we can properly lint our ansible playbooks / roles.
-    required-projects:
-      - opentelekomcloud-infra/base-jobs
-      - opentelekomcloud-infra/otc-zuul-jobs
-      - opentelekomcloud-infra/gl-project-config
-      - zuul/zuul-jobs
-    nodeset: fedora-pod
-    vars:
-      tox_envlist: linters
-      tox_environment:
-        ANSIBLE_ROLES_PATH: ~/src/github.com/opentelekomcloud-infra/base-jobs/roles:~/src/opendev.org/zuul/zuul-jobs/roles:~/src/github.com/opentelekomcloud-infra/otc-zuul-jobs/roles:~/src/github.com/opentelekomcloud-infra/gl-project-config/roles
+# - job:
+#     name: gl-zuul-jobs-linters
+#     parent: tox
+#     description: |
+#       This job runs against project-config,
+#       and zuul-jobs so we can properly lint our ansible playbooks / roles.
+#     required-projects:
+#       - opentelekomcloud-infra/base-jobs
+#       - opentelekomcloud-infra/otc-zuul-jobs
+#       - opentelekomcloud-infra/gl-project-config
+#       - zuul/zuul-jobs
+#     nodeset: fedora-pod
+#     vars:
+#       tox_envlist: linters
+#       tox_environment:
+#         ANSIBLE_ROLES_PATH: ~/src/github.com/opentelekomcloud-infra/base-jobs/roles:~/src/opendev.org/zuul/zuul-jobs/roles:~/src/github.com/opentelekomcloud-infra/otc-zuul-jobs/roles:~/src/github.com/opentelekomcloud-infra/gl-project-config/roles
