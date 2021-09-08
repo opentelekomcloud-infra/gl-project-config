@@ -40,20 +40,3 @@
       zuul_use_fetch_output: true
     secrets:
       - otc_gl_cloud_logs
-
-# - job:
-#     name: gl-zuul-jobs-linters
-#     parent: tox
-#     description: |
-#       This job runs against project-config,
-#       and zuul-jobs so we can properly lint our ansible playbooks / roles.
-#     required-projects:
-#       - opentelekomcloud-infra/base-jobs
-#       - opentelekomcloud-infra/otc-zuul-jobs
-#       - opentelekomcloud-infra/gl-project-config
-#       - zuul/zuul-jobs
-#     nodeset: fedora-pod
-#     vars:
-#       tox_envlist: linters
-#       tox_environment:
-#         ANSIBLE_ROLES_PATH: ~/src/github.com/opentelekomcloud-infra/base-jobs/roles:~/src/opendev.org/zuul/zuul-jobs/roles:~/src/github.com/opentelekomcloud-infra/otc-zuul-jobs/roles:~/src/github.com/opentelekomcloud-infra/gl-project-config/roles

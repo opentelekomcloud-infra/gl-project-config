@@ -8,10 +8,10 @@
     - name: Include upload logs role
       no_log: true
       include_role:
-        name: upload-logs-swift
+        name: upload-logs-swift1
       vars:
         zuul_log_container_public: false
         zuul_log_cloud_config: "{{ otc_gl_cloud_logs }}"
-        zuul_log_partition: false
         zuul_log_delete_after: 648000
         zuul_log_container: "{{ job_logs_container_name }}"
+        zuul_log_storage_proxy_url: "https://artifacts.eco.tsi-dev.otc-service.com"
