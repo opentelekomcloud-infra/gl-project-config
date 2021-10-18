@@ -60,3 +60,17 @@
       - secret: otc_cloud_docs_int
         name: cloud_docs
         pass-to-parent: true
+
+- job:
+    name: check-approvals
+    parent: null
+    description: |
+      Verify PR/MR approvals of the project.
+      It returns list of groups that left their approvals (approval of a group
+      member is considered as a group approval).
+    nodeset:
+      nodes: []
+    run:
+      - playbooks/approvals/gl.yaml
+    secrets:
+      - otc_gl_api

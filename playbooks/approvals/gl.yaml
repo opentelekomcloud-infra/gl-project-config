@@ -1,0 +1,46 @@
+- hosts: localhost
+  tasks:
+    - name: Get GitLab approvals
+      no_log: true
+      uri:
+        url: "{{ otc_gl_api.url }}/api/graphql"
+        headers:
+          "Content-Type": "application/json"
+          "Authorization": "Bearer {{ otc_gl_api.token }}"
+        method: "POST"
+        data:
+          query: |
+            query approvals($project: ID!, $mr_id: String!) {
+              project(fullPath: $project) {
+                name
+                mergeRequest(iid: $mr_id) {
+                  approvedBy(first: 20) {
+                    nodes {
+                      name
+                      groupMemberships {
+                        nodes {
+                          group {
+                            name
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          variables:
+            project: "{{ zuul.project.name }}"
+            mr_id: "{{ zuul.change }}"
+      register: gl_approvals
+
+    - name: Construct approvals dict
+      set_fact:
+        approved_by_groups: "{{ (approved_by_groups | default({})) | combine({item[1]['group']['name']: [item[0]['name']]}, recursive=True, list_merge='append') }}"
+      loop: "{{ gl_approvals['data']['project']['mergeRequest']['approvedBy']['nodes'] | subelements('groupMemberships.nodes') }}"
+
+    - name: Returning Change approvals
+      zuul_return:
+        data:
+          change_approvals:
+            by_groups: "{{ approved_by_groups }}"
