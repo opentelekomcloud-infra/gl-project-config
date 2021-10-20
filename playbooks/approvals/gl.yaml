@@ -37,7 +37,7 @@
 
     - name: Construct approvals dict
       set_fact:
-        approved_by_groups: "{{ (approved_by_groups | default({})) | combine({item[1]['group']['name']: [item[0]['name']]}, recursive=True, list_merge='append') }}"
+        approved_by_groups: "{{ (approved_by_groups | default({})) | combine({item[1]['group']['name']: ((approved_by_groups[item[1]['group']['name']]|default([])) + [item[0]['name']])}) }}"
       loop: "{{ gl_approvals['data']['project']['mergeRequest']['approvedBy']['nodes'] | subelements('groupMemberships.nodes') }}"
 
     - name: Returning Change approvals
