@@ -76,3 +76,16 @@
       - playbooks/approvals/gl.yaml
     secrets:
       - otc_gl_api
+
+- job:
+    name: require-approval-by-group
+    parent: null
+    description: |
+      Verifies the PR/MR has approval by specific group member.
+      Required group name must be passed as `required_group` variable.
+    nodeset:
+      nodes: []
+    requires:
+      - approvals
+    run:
+      - playbooks/approvals/check_group.yaml

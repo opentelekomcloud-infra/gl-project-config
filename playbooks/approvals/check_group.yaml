@@ -1,0 +1,18 @@
+- hosts: localhost
+  tasks:
+    - name: Verify approval
+      set_fact:
+        required_approvals: "{{ (required_group in approved_by_groups) | ternary(true, false) }}"
+
+    - name: Leave Job warning
+      zuul_return:
+        data:
+          zuul:
+            warnings:
+              - "Required approval by {{ required_group }} member is missing"
+      when: "not required_approvals"
+
+    - name: Fail job
+      fail:
+        msg: "Required approval by {{ required_group }} member is missing"
+      when: "not required_approvals"
