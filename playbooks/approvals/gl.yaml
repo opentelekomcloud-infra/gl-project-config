@@ -40,6 +40,10 @@
         approved_by_groups: "{{ (approved_by_groups | default({})) | combine({item[1]['group']['name']: ((approved_by_groups[item[1]['group']['name']]|default([])) + [item[0]['name']])}) }}"
       loop: "{{ gl_approvals['json']['data']['project']['mergeRequest']['approvedBy']['nodes'] | subelements('groupMemberships.nodes') }}"
 
+    - name: debug approvals
+      debug:
+        var: "approved_by_groups"
+
     - name: Returning Change approvals
       zuul_return:
         data:
