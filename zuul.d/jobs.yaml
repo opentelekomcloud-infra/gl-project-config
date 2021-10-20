@@ -70,8 +70,7 @@
       member is considered as a group approval).
     nodeset:
       nodes: []
-    provides:
-      - approvals
+    provides: approvals
     run:
       - playbooks/approvals/gl.yaml
     secrets:
@@ -85,7 +84,6 @@
       Required group name must be passed as `required_group` variable.
     nodeset:
       nodes: []
-    requires:
-      - approvals
+    requires: approvals
     run:
       - playbooks/approvals/check_group.yaml
