@@ -85,5 +85,7 @@
     nodeset:
       nodes: []
     requires: approvals
+    dependencies:
+      - name: check-approvals
     run:
       - playbooks/approvals/check_group.yaml
