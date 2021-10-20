@@ -8,7 +8,7 @@
           "Content-Type": "application/json"
           "Authorization": "Bearer {{ otc_gl_api.token }}"
         method: "POST"
-        data:
+        body:
           query: |
             query approvals($project: ID!, $mr_id: String!) {
               project(fullPath: $project) {
