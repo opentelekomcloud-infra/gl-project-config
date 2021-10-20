@@ -48,4 +48,4 @@
       zuul_return:
         data:
           change_approvals:
-            by_groups: "{{ approved_by_groups }}"
+            by_group: "{{ approved_by_groups }}"
