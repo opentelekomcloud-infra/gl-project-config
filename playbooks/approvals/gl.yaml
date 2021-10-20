@@ -1,7 +1,7 @@
 - hosts: localhost
   tasks:
     - name: Get GitLab approvals
-      no_log: true
+      # no_log: true
       uri:
         url: "{{ otc_gl_api.url }}/api/graphql"
         headers:
