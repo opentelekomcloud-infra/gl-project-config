@@ -1,13 +1,14 @@
 - hosts: localhost
   tasks:
     - name: Get GitLab approvals
-      # no_log: true
+      no_log: true
       uri:
         url: "{{ otc_gl_api.url }}/api/graphql"
         headers:
           "Content-Type": "application/json"
           "Authorization": "Bearer {{ otc_gl_api.token }}"
         method: "POST"
+        body_format: "json"
         body:
           query: |
             query approvals($project: ID!, $mr_id: String!) {

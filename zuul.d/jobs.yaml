@@ -70,6 +70,8 @@
       member is considered as a group approval).
     nodeset:
       nodes: []
+    provides:
+      - approvals
     run:
       - playbooks/approvals/gl.yaml
     secrets:
