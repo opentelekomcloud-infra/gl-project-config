@@ -2,7 +2,7 @@
   tasks:
     - name: Verify approval
       set_fact:
-        required_approvals: "{{ (required_group in approved_by_groups) | ternary(true, false) }}"
+        required_approvals: "{{ (required_group in change_approvals['by_group']) | ternary(true, false) }}"
 
     - name: Leave Job warning
       zuul_return:
